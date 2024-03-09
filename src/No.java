@@ -24,7 +24,7 @@ public class No<T> {
     public void setElemento(T elemento) {
         this.elemento = elemento;
     }
-    private No<T> getProximo() {
+    No<T> getProximo() {
         return proximo;
     }
     public void setProximo(No<T> proximo){
