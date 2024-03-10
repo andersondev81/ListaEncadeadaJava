@@ -11,7 +11,7 @@ public class ListaEncadeada<T> {
     private static final int MENOR = -1;
     private static final int IGUAL_MAIOR = 0;
 
-    /*Instanciar no pelo Inicio */
+    /*Adicionar elemento e Instanciar no pelo Inicio */
     public void adiciona (T elemento) {
         No<T> celula = new No<T>(elemento);
         if (this.tamanho == 0) {
@@ -23,6 +23,37 @@ public class ListaEncadeada<T> {
         this.tamanho++;
     }
 
+    public void adicionaInicio(T elemento) {
+        if (this.tamanho == 0) {
+            No<T> novoNo = new No<>(elemento);
+            this.inicio = novoNo;
+            this.ultimo = novoNo;
+        } else {
+            No<T> novoNo = new No<>(elemento, this.inicio);
+            this.inicio = novoNo;
+        }
+        this.tamanho++;
+    }
+
+    /*Adicionar elemento e Instanciar no pelo Final */
+    public void adiciona(int posicao, T elemento) {
+
+        if (this.posicaoNaoExiste(posicao)) {
+            throw new IllegalArgumentException(NAO_EXISTE);
+        }
+
+        if (posicao == 0) { // está vazia
+            this.adicionaInicio(elemento);
+        } else if (posicao == this.tamanho) { // adiciona
+            this.adiciona(elemento);
+        } else { // meio
+            No<T> noAnterior = this.buscaNo(posicao);
+            No<T> proximoNo = noAnterior.getProximo();
+            No<T> novoNo = new No<>(elemento, proximoNo);
+            noAnterior.setProximo(novoNo);
+            this.tamanho++;
+        }
+    }
 
     /*Metodo que limpa a lista*/
     public void limpa() {
@@ -52,6 +83,11 @@ public class ListaEncadeada<T> {
         }
         return noAtual;
     }
+
+    private boolean posicaoNaoExiste(int posicao) {
+        return !(posicao >= 0 && posicao <= this.tamanho);
+    }
+
 
     /* Metodo para buscar por Elemento ou Posição na Lista */
     public T buscaPorPosicao(int posicao) {
